@@ -12,10 +12,14 @@ cp .env.example .env
 Fill in the `REPLACE_*` values in `.env`, then start the package:
 
 ```bash
-docker compose pull backend
 docker compose up -d --build
 curl --fail http://localhost:8080/actuator/health
 ```
+
+The Compose file expects the backend image to already exist locally as
+`online-job-backend:1.0.0`. Build that image from the backend source repository
+before starting this package; the deployment repository does not contain
+backend source code.
 
 The API base URL is:
 
