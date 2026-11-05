@@ -70,9 +70,9 @@ From the backend source repository, build and push a new immutable tag:
 
 ```bash
 VERSION=1.0.1
-IMAGE=ghcr.io/codeKaren777/online-job-recruitment-platform-backend
+IMAGE=ghcr.io/patisto/online-job-recruitment-platform-backend
 
-echo "$GHCR_TOKEN" | docker login ghcr.io -u codeKaren777 --password-stdin
+echo "$GHCR_TOKEN" | docker login ghcr.io -u Patisto --password-stdin
 docker build -t "$IMAGE:$VERSION" .
 docker push "$IMAGE:$VERSION"
 ```

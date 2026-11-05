@@ -68,7 +68,7 @@ services:
     entrypoint: ["/usr/local/bin/db-runtime-init.sh"]
 
   backend:
-    image: ${BACKEND_IMAGE_REPOSITORY:-ghcr.io/codeKaren777/online-job-recruitment-platform-backend}:${BACKEND_IMAGE_TAG:-latest}
+    image: ${BACKEND_IMAGE_REPOSITORY:-ghcr.io/patisto/online-job-recruitment-platform-backend}:${BACKEND_IMAGE_TAG:-latest}
     environment:
       SPRING_FLYWAY_DEFAULT_SCHEMA: public
       DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:?Set POSTGRES_DB in .env}
