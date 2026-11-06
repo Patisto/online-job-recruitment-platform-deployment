@@ -9,7 +9,7 @@ From the backend source repository:
 
 ```bash
 cd /home/patisto/Projects/online-job-recruitment-platform
-docker build -t online-job-backend:1.0.0 .
+docker build -t online-job-backend:1.0.1 .
 ```
 
 The tag must match `BACKEND_IMAGE_TAG` in the deployment repository's `.env`.
@@ -17,13 +17,13 @@ The default local configuration uses:
 
 ```env
 BACKEND_IMAGE_REPOSITORY=online-job-backend
-BACKEND_IMAGE_TAG=1.0.0
+BACKEND_IMAGE_TAG=1.0.1
 ```
 
 Verify that Docker has the image:
 
 ```bash
-docker image inspect online-job-backend:1.0.0
+docker image inspect online-job-backend:1.0.1
 ```
 
 ## Start the complete local stack

@@ -17,7 +17,7 @@ curl --fail http://localhost:8080/actuator/health
 ```
 
 The Compose file expects the backend image to already exist locally as
-`online-job-backend:1.0.0`. Build that image from the backend source repository
+`online-job-backend:1.0.1`. Build that image from the backend source repository
 before starting this package; the deployment repository does not contain
 backend source code.
 
