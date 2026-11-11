@@ -11,7 +11,7 @@ From the backend source repository:
 ```bash
 cd /home/patisto/Projects/online-job-recruitment-platform
 VERSION=1.0.1
-IMAGE=ghcr.io/patisto/online-job-recruitment-platform-backend
+IMAGE=ghcr.io/codekaren777/online-job-recruitment-platform-backend
 
 docker build -t "$IMAGE:$VERSION" .
 echo "$GHCR_TOKEN" | docker login ghcr.io -u Patisto --password-stdin
@@ -37,7 +37,7 @@ confirm the warning. A public package can be pulled without `docker login`.
 On the machine running this repository, update `.env`:
 
 ```env
-BACKEND_IMAGE_REPOSITORY=ghcr.io/patisto/online-job-recruitment-platform-backend
+BACKEND_IMAGE_REPOSITORY=ghcr.io/codekaren777/online-job-recruitment-platform-backend
 BACKEND_IMAGE_TAG=1.0.1
 ```
 
