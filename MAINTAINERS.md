@@ -1,71 +1,48 @@
-# Local image instructions
+# Backend image release instructions
 
-These instructions build and run the backend image locally. They do not use
-GHCR, registry tokens, or an internet image registry.
+The deployment repository consumes the backend image from GitHub Container
+Registry (GHCR). The package must be public so a fresh machine can pull it
+without registry credentials.
 
-## Build the backend image
+## Build and publish the backend image
 
 From the backend source repository:
 
 ```bash
 cd /home/patisto/Projects/online-job-recruitment-platform
-docker build -t online-job-backend:1.0.1 .
+VERSION=1.0.1
+IMAGE=ghcr.io/patisto/online-job-recruitment-platform-backend
+
+docker build -t "$IMAGE:$VERSION" .
+echo "$GHCR_TOKEN" | docker login ghcr.io -u Patisto --password-stdin
+docker push "$IMAGE:$VERSION"
 ```
 
-The tag must match `BACKEND_IMAGE_TAG` in the deployment repository's `.env`.
-The default local configuration uses:
+`GHCR_TOKEN` must be a GitHub token with `write:packages` permission. Do not
+commit the token or put it in `.env`.
+
+## Make the package public
+
+Open the package page after the first push:
+
+```text
+https://github.com/Patisto?tab=packages
+```
+
+Open the package settings, choose **Change visibility**, select **Public**, and
+confirm the warning. A public package can be pulled without `docker login`.
+
+## Deploy an updated image
+
+On the machine running this repository, update `.env`:
 
 ```env
-BACKEND_IMAGE_REPOSITORY=online-job-backend
+BACKEND_IMAGE_REPOSITORY=ghcr.io/patisto/online-job-recruitment-platform-backend
 BACKEND_IMAGE_TAG=1.0.1
 ```
 
-Verify that Docker has the image:
-
 ```bash
-docker image inspect online-job-backend:1.0.1
-```
-
-## Start the complete local stack
-
-From the deployment repository:
-
-```bash
-cd /home/patisto/Projects/online-job-recruitment-platform-deployment
-cp .env.example .env
-```
-
-Replace the `REPLACE_*` values in `.env`, then start the services:
-
-```bash
-docker compose up -d --build
-docker compose ps
-curl --fail http://localhost:8080/actuator/health
-```
-
-`--build` builds the MinIO helper images in this repository. It does not build
-the backend; Compose uses the local image created in the previous step.
-
-## Update the local backend image
-
-After changing the backend source code, choose a new local tag:
-
-```bash
-cd /home/patisto/Projects/online-job-recruitment-platform
-docker build -t online-job-backend:1.0.1 .
-```
-
-Update the deployment repository `.env`:
-
-```env
-BACKEND_IMAGE_REPOSITORY=online-job-backend
-BACKEND_IMAGE_TAG=1.0.1
-```
-
-Restart only the backend:
-
-```bash
-cd /home/patisto/Projects/online-job-recruitment-platform-deployment
+docker compose pull backend
 docker compose up -d backend
 docker compose ps
 curl --fail http://localhost:8080/actuator/health
@@ -85,9 +62,3 @@ docker compose exec -T db pg_dump \
 
 Back up the `minio_data` volume or MinIO objects separately. PostgreSQL
 backups do not contain uploaded documents.
-
-## Optional future registry publishing
-
-This local workflow does not require GHCR. If the image later needs to run on
-another machine, publish it through a registry or transfer it as an image
-archive; that is a separate distribution step.
